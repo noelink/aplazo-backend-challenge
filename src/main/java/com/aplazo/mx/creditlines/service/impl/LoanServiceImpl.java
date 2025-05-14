@@ -5,6 +5,7 @@ import com.aplazo.mx.creditlines.controller.dto.request.LoanRequest;
 import com.aplazo.mx.creditlines.controller.dto.response.LoanResponse;
 import com.aplazo.mx.creditlines.enums.PaymentPlanStatus;
 import com.aplazo.mx.creditlines.exception.CustomerCreditException;
+import com.aplazo.mx.creditlines.exception.LoanOperationException;
 import com.aplazo.mx.creditlines.repository.CustomerRepository;
 import com.aplazo.mx.creditlines.repository.LoanRepository;
 import com.aplazo.mx.creditlines.repository.entity.Customer;
@@ -33,10 +34,12 @@ public class LoanServiceImpl implements LoanService {
     public LoanResponse createLoan(LoanRequest loanRequest) {
         Optional<Customer> customerOption = customerRepository.findById(UUID.fromString(loanRequest.getCustomerId()));
         if(customerOption.isEmpty()) {
+            log.error("No such customer found with id {}", loanRequest.getCustomerId());
             throw new CustomerCreditException("No such customer found with id " + loanRequest.getCustomerId());
         }
         Customer customer = customerOption.get();
         if (loanRequest.getAmount().compareTo(customer.getCreditLineAmount()) > 0) {
+            log.info("Invalid amount of credit line");
             throw new CustomerCreditException("Requested amount exceeds credit limit " + loanRequest.getAmount());
         }
         Loan newLoan = new Loan();
@@ -49,6 +52,15 @@ public class LoanServiceImpl implements LoanService {
         return LoanMapper.INSTANCE.loanToLoanResponse(loanRepository.save(newLoan));
     }
 
+    @Override
+    public LoanResponse findLoanById(UUID loanId) {
+        Optional<Loan> loanOption = loanRepository.findById(loanId);
+        if(loanOption.isEmpty()) {
+            throw new LoanOperationException("No such loan found with id " + loanId);
+        }
+        log.info("Retieve loan with id {}", loanId);
+       return LoanMapper.INSTANCE.loanToLoanResponse(loanOption.get());
+    }
 
 
 }

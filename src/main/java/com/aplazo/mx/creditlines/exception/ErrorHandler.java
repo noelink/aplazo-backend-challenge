@@ -29,4 +29,18 @@ public class ErrorHandler {
                 LocalDateTime.now()  );
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(LoanOperationException.class)
+    public ResponseEntity<ErrorResponse> handleCustomerCreditException(LoanOperationException le, WebRequest request, HttpServletRequest servletRequest) {
+        log.error("An error occurred: {}", le.getMessage());
+        String path = servletRequest.getRequestURI();
+
+        ErrorResponse errorResponse = new ErrorResponse(CreditConstants.ERR_APZ_01,
+                HttpStatus.INTERNAL_SERVER_ERROR.name(),
+                le.getMessage(),
+                path,
+                LocalDateTime.now()  );
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

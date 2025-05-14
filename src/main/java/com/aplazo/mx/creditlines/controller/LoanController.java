@@ -11,10 +11,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value="aplazo-api-backend/v1/loans", produces = "application/json")
@@ -26,5 +25,10 @@ public class LoanController {
     @PostMapping
     public ResponseEntity<LoanResponse> createLoan(@RequestBody @Valid LoanRequest request) {
         return new ResponseEntity<>(loanService.createLoan(request), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{loanId}")
+    public ResponseEntity<LoanResponse> getLoan(@PathVariable String loanId ) {
+        return new ResponseEntity<>(loanService.findLoanById(UUID.fromString(loanId)), HttpStatus.CREATED);
     }
 }
