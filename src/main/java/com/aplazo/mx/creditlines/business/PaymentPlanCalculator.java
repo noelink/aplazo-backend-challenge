@@ -28,28 +28,32 @@ public class PaymentPlanCalculator {
         boolean uuidGreaterThan25 = idClient.toString().length() > 25;
 
         if (startsWithCLH) {
-            paymentPlan.setCommissionAmount(13.0);
+            paymentPlan.setCommissionAmount(amount * (13.0/100));
         } else if (uuidGreaterThan25) {
-            paymentPlan.setCommissionAmount(16.0);
+            paymentPlan.setCommissionAmount(amount * (16.0/100));
         } else {
-            paymentPlan.setCommissionAmount(16.0);
+            paymentPlan.setCommissionAmount(amount * (16.0/100));
         }
         paymentPlan.setInstallments(createInstallments(numberOfInstallments, paymentPlan.getCommissionAmount(), amount));
         return paymentPlan;
     }
 
     private List<Installment> createInstallments(int numberOfInstallments, Double commissionAmount, Double amount) {
-        double interestRate = amount * (commissionAmount / 100);
-        double paymentPerInstallment = (amount + interestRate) / numberOfInstallments;
+        double paymentPerInstallment = (amount + commissionAmount) / numberOfInstallments;
+        LocalDate startDate = LocalDate.now();
+
         return IntStream.range(0, numberOfInstallments)
-                .mapToObj(i -> createInstallment(paymentPerInstallment))
+                .mapToObj(i -> {
+                    LocalDate scheduledDate = startDate.plusDays(15L * (i+1));
+                    return createInstallment(paymentPerInstallment, scheduledDate);
+                })
                 .collect(Collectors.toList());
     }
 
-    private Installment createInstallment(double paymentPerInstallment) {
+    private Installment createInstallment(double paymentPerInstallment, LocalDate scheduledDate) {
         return Installment.builder()
                 .amount(paymentPerInstallment)
-                .scheduledPaymentDate(LocalDate.now())
+                .scheduledPaymentDate(scheduledDate)
                 .status(InstallmentStatus.NEXT)
                 .build();
     }

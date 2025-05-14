@@ -40,7 +40,7 @@ public class LoanServiceImpl implements LoanService {
         Customer customer = customerOption.get();
         if (loanRequest.getAmount().compareTo(customer.getCreditLineAmount()) > 0) {
             log.info("Invalid amount of credit line");
-            throw new CustomerCreditException("Requested amount exceeds credit limit " + loanRequest.getAmount());
+            throw new CustomerCreditException("Requested amount: "+loanRequest.getAmount()+ " exceeds credit limit of: " + customer.getCreditLineAmount());
         }
         Loan newLoan = new Loan();
 

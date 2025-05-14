@@ -1,14 +1,11 @@
 package com.aplazo.mx.creditlines.controller;
 
 
-import com.aplazo.mx.creditlines.controller.dto.request.CustomerRequest;
 import com.aplazo.mx.creditlines.controller.dto.request.LoanRequest;
-import com.aplazo.mx.creditlines.controller.dto.response.CustomerResponse;
 import com.aplazo.mx.creditlines.controller.dto.response.LoanResponse;
 import com.aplazo.mx.creditlines.service.LoanService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
