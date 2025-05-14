@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping(value="aplazo-api-backend/v1/customers", produces = "application/json")
+@RequestMapping(value="/aplazo-api-backend/v1/customers", produces = "application/json")
 @RequiredArgsConstructor
 public class CustomerController {
 

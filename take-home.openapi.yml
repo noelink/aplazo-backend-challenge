@@ -367,7 +367,7 @@ components:
           format: double
           minimum: 0
           exclusiveMinimum: true
-          description: Installment amount to be paid
+          description: InstallmentDto amount to be paid
         scheduledPaymentDate:
           type: string
           format: date

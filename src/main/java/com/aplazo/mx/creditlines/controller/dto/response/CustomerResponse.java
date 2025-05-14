@@ -13,6 +13,6 @@ import java.util.UUID;
 public class CustomerResponse {
     private UUID idCliente;
     private LocalDateTime createdAt;
-    private BigDecimal creditLineAmount;
-    private BigDecimal availableCreditLineAmount;
+    private Double creditLineAmount;
+    private Double availableCreditLineAmount;
 }
