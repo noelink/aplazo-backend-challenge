@@ -29,7 +29,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerResponse createCustomer(CustomerRequest customerRequest) {
         Optional<Double> creditLineAmountOption = creditLineCalculatorStrategy.calculateCreditLine(DateCalculator.calcularEdad(customerRequest.getDateOfBirth()));
         if(creditLineAmountOption.isEmpty()){
-            throw new CustomerCreditException("Rejected customer request, age not allowed");
+            throw new CustomerCreditException("Rejected customer request, age not allowed", 100);
         }
         log.info("Creating new custumer {}", customerRequest);
         Customer customer = CustomerMapper.INSTANCE.toCustomer(customerRequest);

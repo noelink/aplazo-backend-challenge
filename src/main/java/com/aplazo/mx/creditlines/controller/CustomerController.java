@@ -24,11 +24,7 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<CustomerResponse> createCustomer(@RequestBody @Valid CustomerRequest request) {
-//        CustomerResponse response = new CustomerResponse();
-//
         HttpHeaders headers = new HttpHeaders();
-//        headers.setLocation(URI.create("/v1/customers/" + response.getIdCliente()));
-//        headers.add("X-Auth-Token", "fake-jwt-token");
         return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(customerService.createCustomer(request));
     }
 

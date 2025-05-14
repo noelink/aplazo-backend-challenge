@@ -35,12 +35,12 @@ public class LoanServiceImpl implements LoanService {
         Optional<Customer> customerOption = customerRepository.findById(UUID.fromString(loanRequest.getCustomerId()));
         if(customerOption.isEmpty()) {
             log.error("No such customer found with id {}", loanRequest.getCustomerId());
-            throw new CustomerCreditException("No such customer found with id " + loanRequest.getCustomerId());
+            throw new CustomerCreditException("No such customer found with id " + loanRequest.getCustomerId(), 105);
         }
         Customer customer = customerOption.get();
         if (loanRequest.getAmount().compareTo(customer.getCreditLineAmount()) > 0) {
             log.info("Invalid amount of credit line");
-            throw new CustomerCreditException("Requested amount: "+loanRequest.getAmount()+ " exceeds credit limit of: " + customer.getCreditLineAmount());
+            throw new CustomerCreditException("Requested amount: "+loanRequest.getAmount()+ " exceeds credit limit of: " + customer.getCreditLineAmount(), 102);
         }
         Loan newLoan = new Loan();
 
@@ -56,7 +56,7 @@ public class LoanServiceImpl implements LoanService {
     public LoanResponse findLoanById(UUID loanId) {
         Optional<Loan> loanOption = loanRepository.findById(loanId);
         if(loanOption.isEmpty()) {
-            throw new LoanOperationException("No such loan found with id " + loanId);
+            throw new CustomerCreditException("No such loan found with id " + loanId);
         }
         log.info("Retieve loan with id {}", loanId);
        return LoanMapper.INSTANCE.loanToLoanResponse(loanOption.get());

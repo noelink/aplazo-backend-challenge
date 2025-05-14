@@ -1,5 +1,8 @@
 package com.aplazo.mx.creditlines.exception;
 
+import lombok.Getter;
+
+@Getter
 public class CustomerCreditException extends RuntimeException {
 
     private int errorCode;
