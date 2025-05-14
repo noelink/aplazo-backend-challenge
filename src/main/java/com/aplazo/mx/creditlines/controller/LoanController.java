@@ -26,6 +26,6 @@ public class LoanController {
 
     @GetMapping("/{loanId}")
     public ResponseEntity<LoanResponse> getLoan(@PathVariable String loanId ) {
-        return new ResponseEntity<>(loanService.findLoanById(UUID.fromString(loanId)), HttpStatus.CREATED);
+        return new ResponseEntity<>(loanService.findLoanById(UUID.fromString(loanId)), HttpStatus.OK);
     }
 }

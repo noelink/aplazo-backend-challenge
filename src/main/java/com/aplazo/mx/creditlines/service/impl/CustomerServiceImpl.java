@@ -6,16 +6,20 @@ import com.aplazo.mx.creditlines.controller.dto.response.CustomerResponse;
 import com.aplazo.mx.creditlines.exception.CustomerCreditException;
 import com.aplazo.mx.creditlines.repository.CustomerRepository;
 import com.aplazo.mx.creditlines.repository.entity.Customer;
+import com.aplazo.mx.creditlines.repository.entity.Loan;
 import com.aplazo.mx.creditlines.service.CustomerService;
 import com.aplazo.mx.creditlines.util.DateCalculator;
 import com.aplazo.mx.creditlines.util.mapper.CustomerMapper;
+import com.aplazo.mx.creditlines.util.mapper.LoanMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -37,10 +41,20 @@ public class CustomerServiceImpl implements CustomerService {
         Customer savedCustomer = customerRepository.save(customer);
         return CustomerResponse.builder()
                 .idCliente(savedCustomer.getIdClient())
-                .createdAt(LocalDateTime.now())
+                .creationDate(LocalDate.now())
                 .creditLineAmount(creditLineAmountOption.get())
                 .availableCreditLineAmount(creditLineAmountOption.get())
                 .build();
 
+    }
+
+    @Override
+    public CustomerResponse findByCustomerId(UUID uuid) {
+        Optional<Customer> customerOption = customerRepository.findById(uuid);
+        if(customerOption.isEmpty()) {
+            throw new CustomerCreditException("No such customer found with id " + uuid);
+        }
+        log.info("Retieve customer with id {}", uuid);
+        return CustomerMapper.INSTANCE.toCustomerResponse(customerOption.get());
     }
 }
