@@ -42,7 +42,7 @@ class CustomerControllerTest {
 
         UUID id = UUID.randomUUID();
         CustomerResponse response = CustomerResponse.builder()
-                .idCliente(id)
+                .idClient(id)
                 .creationDate(LocalDate.now())
                 .creditLineAmount(8000.0)
                 .availableCreditLineAmount(8000.0)
@@ -54,7 +54,7 @@ class CustomerControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.idCliente").value(id.toString()))
+                .andExpect(jsonPath("$.idClient").value(id.toString()))
                 .andExpect(jsonPath("$.creditLineAmount").value(8000.0));
     }
 
@@ -77,7 +77,7 @@ class CustomerControllerTest {
 
         UUID customerId = UUID.randomUUID();
         CustomerResponse response = CustomerResponse.builder()
-                .idCliente(customerId)
+                .idClient(customerId)
                 .creationDate(LocalDate.now())
                 .creditLineAmount(5000.0)
                 .availableCreditLineAmount(3000.0)
@@ -88,7 +88,7 @@ class CustomerControllerTest {
 
         mockMvc.perform(get("/aplazo-api-backend/v1/customers/" + customerId))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.idCliente").value(customerId.toString()))
+                .andExpect(jsonPath("$.idClient").value(customerId.toString()))
                 .andExpect(jsonPath("$.creditLineAmount").value(5000.0))
                 .andExpect(jsonPath("$.availableCreditLineAmount").value(3000.0));
     }

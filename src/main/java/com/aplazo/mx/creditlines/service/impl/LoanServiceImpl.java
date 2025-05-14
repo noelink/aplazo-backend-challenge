@@ -5,7 +5,6 @@ import com.aplazo.mx.creditlines.controller.dto.request.LoanRequest;
 import com.aplazo.mx.creditlines.controller.dto.response.LoanResponse;
 import com.aplazo.mx.creditlines.enums.PaymentPlanStatus;
 import com.aplazo.mx.creditlines.exception.CustomerCreditException;
-import com.aplazo.mx.creditlines.exception.LoanOperationException;
 import com.aplazo.mx.creditlines.repository.CustomerRepository;
 import com.aplazo.mx.creditlines.repository.LoanRepository;
 import com.aplazo.mx.creditlines.repository.entity.Customer;

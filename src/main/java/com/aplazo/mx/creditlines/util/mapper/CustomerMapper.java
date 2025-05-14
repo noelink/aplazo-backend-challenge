@@ -13,9 +13,5 @@ public interface CustomerMapper {
 
     Customer toCustomer(CustomerRequest customerRequest);
 
-    @Mapping(source = "idClient", target = "idCliente")
-    @Mapping(source = "creationDate", target = "creationDate")
-    @Mapping(source = "creditLineAmount", target = "creditLineAmount")
-    @Mapping(target = "availableCreditLineAmount", source = "creditLineAmount")
     CustomerResponse toCustomerResponse(Customer customer);
 }
