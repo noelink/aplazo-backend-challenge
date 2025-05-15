@@ -24,6 +24,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CreditLineCalculatorStrategy creditLineCalculatorStrategy;
+    private final CustomerMapper customerMapper;
 
     @Override
     public CustomerResponse createCustomer(CustomerRequest customerRequest) {
@@ -32,7 +33,7 @@ public class CustomerServiceImpl implements CustomerService {
             throw new CustomerCreditException("Rejected customer request, age not allowed", 100);
         }
         log.info("Creating new custumer {}", customerRequest);
-        Customer customer = CustomerMapper.INSTANCE.toCustomer(customerRequest);
+        Customer customer = customerMapper.toCustomer(customerRequest);
         customer.setCreditLineAmount(creditLineAmountOption.get());
         Customer savedCustomer = customerRepository.save(customer);
         return CustomerResponse.builder()
@@ -51,7 +52,7 @@ public class CustomerServiceImpl implements CustomerService {
             throw new CustomerCreditException("No such customer found with id " + uuid);
         }
         log.info("Retieve customer with id {}", uuid);
-        CustomerResponse response = CustomerMapper.INSTANCE.toCustomerResponse(customerOption.get());
+        CustomerResponse response = customerMapper.toCustomerResponse(customerOption.get());
         response.setAvailableCreditLineAmount(customerOption.get().getCreditLineAmount());
         return response;
     }

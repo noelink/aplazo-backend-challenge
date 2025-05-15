@@ -5,10 +5,8 @@ import com.aplazo.mx.creditlines.repository.entity.Loan;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface LoanMapper {
-
-    LoanMapper INSTANCE = Mappers.getMapper(LoanMapper.class);
 
     LoanResponse loanToLoanResponse(Loan loan);
 }

@@ -27,6 +27,7 @@ public class LoanServiceImpl implements LoanService {
     private final LoanRepository loanRepository;
     private final CustomerRepository customerRepository;
     private final PaymentPlanCalculator paymentPlanCalculator;
+    private final LoanMapper loanMapper;
     private final int NUMBER_OF_INSTALLMENTS = 5;
 
     @Override
@@ -48,7 +49,7 @@ public class LoanServiceImpl implements LoanService {
         newLoan.setStatus(PaymentPlanStatus.ACTIVE);
         newLoan.setCreatedAt(Instant.now());
         newLoan.setPaymentPlan(paymentPlanCalculator.createPaymentPlan(customer, NUMBER_OF_INSTALLMENTS, loanRequest.getAmount()));
-        return LoanMapper.INSTANCE.loanToLoanResponse(loanRepository.save(newLoan));
+        return loanMapper.loanToLoanResponse(loanRepository.save(newLoan));
     }
 
     @Override
@@ -58,7 +59,7 @@ public class LoanServiceImpl implements LoanService {
             throw new CustomerCreditException("No such loan found with id " + loanId);
         }
         log.info("Retieve loan with id {}", loanId);
-       return LoanMapper.INSTANCE.loanToLoanResponse(loanOption.get());
+       return loanMapper.loanToLoanResponse(loanOption.get());
     }
 
 
